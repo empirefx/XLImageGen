@@ -1,7 +1,7 @@
 {
   "name": "xlimagegen",
   "version": "0.1.0",
-  "description": "Generates big size empty images",
+  "description": "Generates big size empty images, just because",
   "type": "module",
   "scripts": {
     "dev": "vite",

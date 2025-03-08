@@ -1,49 +1,58 @@
 self.onmessage = (e) => {
-  const { width, height, title, titleHeight } = e.data;
+  const { width, height, title } = e.data;
   const canvas = new OffscreenCanvas(width, height);
   const ctx = canvas.getContext("2d");
 
-  // Background
-  ctx.fillStyle = "#ffffff";
+  // Global background
+  ctx.fillStyle = "#ffffee";
   ctx.fillRect(0, 0, width, height);
 
-  // Title Background
-  ctx.fillStyle = "#f0f0f0";
-  ctx.fillRect(0, 0, width, titleHeight);
+  const chunkSize = 500;
+  for (let x = 0; x < width; x += chunkSize) {
+    for (let y = 0; y < height; y += chunkSize) {
+      ctx.save();
 
-  // Title Border
-  ctx.strokeStyle = "red";
-  ctx.lineWidth = 1;
-  ctx.strokeRect(0, 0, width, titleHeight);
+      // Chunk background & border
+      ctx.fillStyle = "#ffffee";
+      ctx.fillRect(x, y, chunkSize, chunkSize);
+      ctx.strokeStyle = "red";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x, y, chunkSize, chunkSize);
 
-  // Title Text
-  ctx.fillStyle = "#000";
-  ctx.font = "bold 40px Arial";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(title, width / 2, titleHeight / 2);
+      // Title Text
+      ctx.fillStyle = "#000";
+      ctx.font = "bold 20px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(title, x + chunkSize / 2, y + chunkSize / 2);
 
-  // Dashed Guide Lines
-  ctx.strokeStyle = "red";
-  ctx.setLineDash([5, 5]);
+      // Reset fillStyle if needed (preventing color bleed)
+      ctx.fillStyle = "#ffffee";
 
-  // Horizontal Lines
-  ctx.beginPath();
-  ctx.moveTo(0, titleHeight / 3);
-  ctx.lineTo(width, titleHeight / 3);
-  ctx.moveTo(0, (titleHeight / 3) * 2);
-  ctx.lineTo(width, (titleHeight / 3) * 2);
-  ctx.stroke();
+      // Dashed guide lines
+      ctx.strokeStyle = "red";
+      ctx.setLineDash([5, 5]);
 
-  // Vertical Lines
-  ctx.beginPath();
-  ctx.moveTo(width / 3, 0);
-  ctx.lineTo(width / 3, titleHeight);
-  ctx.moveTo((width / 3) * 2, 0);
-  ctx.lineTo((width / 3) * 2, titleHeight);
-  ctx.stroke();
+      // Horizontal dashed lines
+      ctx.beginPath();
+      ctx.moveTo(x, y + chunkSize / 3);
+      ctx.lineTo(x + chunkSize, y + chunkSize / 3);
+      ctx.moveTo(x, y + (chunkSize / 3) * 2);
+      ctx.lineTo(x + chunkSize, y + (chunkSize / 3) * 2);
+      ctx.stroke();
 
-  // Convert to Blob & Send Back
+      // Vertical dashed lines
+      ctx.beginPath();
+      ctx.moveTo(x + chunkSize / 3, y);
+      ctx.lineTo(x + chunkSize / 3, y + chunkSize);
+      ctx.moveTo(x + (chunkSize / 3) * 2, y);
+      ctx.lineTo(x + (chunkSize / 3) * 2, y + chunkSize);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+  }
+
   canvas.convertToBlob({ type: "image/png" }).then((blob) => {
     self.postMessage(blob);
   });

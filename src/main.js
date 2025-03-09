@@ -3,7 +3,6 @@ const worker = new Worker(new URL("./worker/worker.js", import.meta.url), { type
 worker.postMessage({
   width: 2000,
   height: 1000,
-  title: "My Large Image",
   chunkSize: 500
 });
 

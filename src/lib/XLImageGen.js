@@ -1,8 +1,7 @@
 export class XLImageGen {
-  constructor(width, height, title, chunkSize = 500) {
+  constructor(width, height, chunkSize = 500) {
     this.width = width;
     this.height = height;
-    this.title = title;
     this.chunkSize = chunkSize;
     this.canvas = new OffscreenCanvas(width, height);
     this.ctx = this.canvas.getContext("2d");
@@ -17,31 +16,26 @@ export class XLImageGen {
     ctx.strokeRect(x, y, size, size);
   }
 
-  drawTitle(x, y, size) {
-    const { ctx, title } = this;
+  drawTitle(x, y, size, index) {
+    const { ctx } = this;
     ctx.fillStyle = "#000";
     ctx.font = "bold 20px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(title, x + size / 2, y + size / 2);
+    ctx.fillText(`Title (${index})`, x + size / 2, y + size / 2);
   }
 
   drawDashedLines(x, y, size) {
     const { ctx } = this;
+    const fractions = [1/3, 2/3];
     ctx.setLineDash([5, 5]);
-    // Horizontal dashed lines
     ctx.beginPath();
-    ctx.moveTo(x, y + size / 3);
-    ctx.lineTo(x + size, y + size / 3);
-    ctx.moveTo(x, y + (2 * size) / 3);
-    ctx.lineTo(x + size, y + (2 * size) / 3);
-    ctx.stroke();
-    // Vertical dashed lines
-    ctx.beginPath();
-    ctx.moveTo(x + size / 3, y);
-    ctx.lineTo(x + size / 3, y + size);
-    ctx.moveTo(x + (2 * size) / 3, y);
-    ctx.lineTo(x + (2 * size) / 3, y + size);
+    for (const f of fractions) {
+      ctx.moveTo(x, y + f * size);
+      ctx.lineTo(x + size, y + f * size);
+      ctx.moveTo(x + f * size, y);
+      ctx.lineTo(x + f * size, y + size);
+    }
     ctx.stroke();
   }
 
@@ -49,15 +43,16 @@ export class XLImageGen {
     return new Promise((resolve, reject) => {
       try {
         const { ctx, canvas, width, height, chunkSize } = this;
-        // Draw global background
+        // Global background
         ctx.fillStyle = "#ffffee";
         ctx.fillRect(0, 0, width, height);
 
+        let chunkCount = 1;
         for (let x = 0; x < width; x += chunkSize) {
           for (let y = 0; y < height; y += chunkSize) {
             ctx.save();
             this.drawChunk(x, y, chunkSize);
-            this.drawTitle(x, y, chunkSize);
+            this.drawTitle(x, y, chunkSize, chunkCount++);
             this.drawDashedLines(x, y, chunkSize);
             ctx.restore();
           }

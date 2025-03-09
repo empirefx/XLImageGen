@@ -59,8 +59,8 @@ export class XLImageGen {
 
         let chunkCount = 1;
         // Loop over canvas by chunks
-        for (let x = 0; x < width; x += chunkSize) {
-          for (let y = 0; y < height; y += chunkSize) {
+        for (let y = 0; y < height; y += chunkSize) {
+          for (let x = 0; x < width; x += chunkSize) {
             ctx.save(); // Save current drawing state
             this.drawChunk(x, y, chunkSize);
             this.drawTitle(x, y, chunkSize, chunkCount++);

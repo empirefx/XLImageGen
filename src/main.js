@@ -2,8 +2,8 @@ const worker = new Worker(new URL("./worker/worker.js", import.meta.url), { type
 
 worker.postMessage({
   width: 2000,
-  height: 1000,
-  chunkSize: 500
+  height: 2000,
+  chunkSize: 200
 });
 
 worker.onmessage = (e) => {

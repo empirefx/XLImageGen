@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XL Image Generator</title>
+  <style>
+    body {
+      font-size: 20px;
+
+      background-color: white;
+    }
+
+    hr {
+      background: none;
+      border: 1px solid #ddd;
+    }
+
+    .wrapper {
+      overflow: hidden;
+      width: 900px;
+      height: auto;
+      position: relative;
+      margin: auto;
+      margin-top: 200px;
+/*      padding: 20px;*/
+      text-align:center;
+      border-radius: 20px;
+
+      background-color:white;
+      border: 1px solid lightgray;
+    }
+
+    p {
+      color: #555;
+    }
+
+    label {
+      margin: 20px;
+      font-weight: bold;
+
+      color: #333;
+    }
+
+    input {
+      max-width: 100px;
+      padding: 6px 20px;
+      border-radius: 6px;
+
+      border: 1px solid lightblue;
+    }
+
+    button {
+      margin: 10px;
+      padding: 5px 20px;
+      border-radius: 4px;
+
+      font-size: 18px;
+      color: gray;
+      border: 1px solid lightblue;
+      background-color: white;
+    }
+
+    button:hover {
+      cursor: pointer;
+
+      color: #000020;
+      background-color: #009fff0a;
+    }
+
+    .option {
+      padding: 20px 0;
+
+      background-color: #009fff0a;
+    }
+
+    .selection {
+      padding: 10px 0;
+
+      background-color: #add3e66e;
+    }
+
+    .option, .selection {
+      border-top: 1px dashed lightblue;
+    }
+
+    #generate {
+      padding: 14px 40px;
+
+      color: #000020;
+      background-color: #009fff0a;
+      box-shadow: rgba(170, 191, 255, 0.2) 0px 7px 29px 0px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    #generate:hover {
+      background-color: white;
+    }
+  </style>
+  <script type="module" crossorigin src="./index.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <h3>Generates title images</h3>
+    <p>Select any of the options or cutomize it(in px).</p>
+    <div class="option">
+      <label for="width">Width</label>
+      <input id="width" type="text">
+      <label for="height">Height</label>
+      <input id="height" type="text">
+      <label for="title">Title size</label>
+      <input id="title" type="text">
+      <br>
+      <br>
+      <br>
+      <button id="generate">Generate</button>
+    </div>
+    <div class="selection">
+      <label for="title">Fixed options</label>
+      <button id="2k">2000x2000</button>
+      <button id="4k">4000x4000</button>
+      <button id="8k">8000x8000</button>
+      <button id=10k>10000x10000</button>
+    </div>
+  </div>
+
+</body>
+</html>
